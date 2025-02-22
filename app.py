@@ -1,23 +1,31 @@
 from flask import Flask, request, redirect
+import secrets
 
 app = Flask(__name__)
 
 # Paso 1: Configuración inicial
 CLIENT_ID = "YOUR_CLIENT_ID"  # Reemplaza con tu client_id real
 REDIRECT_URI = "https://your-ngrok-url.ngrok-free.app/callback"  # URL de ngrok
-AUTH_URL = (
-    f"https://sellercentral.amazon.com/apps/authorize/consent?"
-    f"application_id={CLIENT_ID}&"
-    f"state=UNIQUE_STATE_VALUE&"
-    f"version=beta"
-)
 
 @app.route("/")
 def home():
     """
     Página principal que redirige al vendedor a Amazon para autorización.
     """
-    return redirect(AUTH_URL)
+    # Generar un valor único para 'state' en cada solicitud
+    state = secrets.token_urlsafe(16)
+    
+    # Construir la URL de autorización dinámicamente
+    auth_url = (
+        f"https://sellercentral.amazon.com/apps/authorize/consent?"
+        f"application_id={CLIENT_ID}&"
+        f"state={state}&"
+        f"redirect_uri={REDIRECT_URI}&"
+        f"version=beta"
+    )
+    
+    # Redirigir al usuario a la URL de autorización
+    return redirect(auth_url)
 
 @app.route("/callback")
 def callback():
