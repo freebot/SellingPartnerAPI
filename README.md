@@ -1,7 +1,6 @@
 OAuth Authorization Code Fetcher  
 
   
-
   
 
 Este proyecto es una aplicación web simple diseñada para obtener el código de autorización  de Amazon Selling Partner API (SP-API) y mostrarlo en pantalla para su uso posterior. La aplicación se ejecuta en un servidor Flask dentro de un contenedor Docker, lo que facilita su implementación y uso 
